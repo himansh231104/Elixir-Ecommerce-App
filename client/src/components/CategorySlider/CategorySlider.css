@@ -1,0 +1,121 @@
+.categorySliderSection{
+    width: 100%;
+    height: auto;
+    padding: 30px 0px;
+}
+
+.categorySliderMenu .item{
+    cursor: pointer;
+    padding: 10px 0;
+    height: auto;
+}
+
+.categorySliderMenu .item .info h5{
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.categorySliderMenu .item .info p{
+    font-size: 14px;
+    opacity: 0.7;
+    margin-bottom: 0;
+}
+
+.categorySliderMenu .slick-track {
+    display: flex !important;
+    gap: 10px;
+}
+
+.slick-slide:nth-of-type(5n+1) { background: #FFFCEB !important; } 
+.slick-slide:nth-of-type(5n+2) { background: #ECFFEC !important; } 
+.slick-slide:nth-of-type(5n+3) { background: #FEEFEA !important; } 
+.slick-slide:nth-of-type(5n+4) { background: #FFF3EB !important; } 
+.slick-slide:nth-of-type(5n)   { background: #FFF3FF !important; } 
+
+
+.categorySliderMenu .item .info{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: auto;
+}
+
+.categorySliderMenu .slick-slide{
+    transition: all 0.3s ease-in-out;
+}
+
+.categorySliderMenu .slick-slide:hover{
+    box-shadow: 0px 3px 6px rgba(0, 0, 0, 0), 0px 3px 6px rgba(0, 0, 0, 0.23);
+    transform: translateY(-10px);
+}
+
+.categorySliderSection .slick-slider .slick-next{
+    top: -30px !important; 
+    right: 0px !important;
+}
+.categorySliderSection .slick-slider .slick-prev{
+    top: -30px !important; 
+    right: 50px !important;
+    left: inherit !important;
+}
+
+/* .categorySliderSection .slick-arrow:hover{
+    background: rgba(27, 192, 82, 0.7) !important;
+} */
+
+/* .categorySliderSection .slick-arrow::before{
+    color: crimson !important;
+    background: #000;
+    border-radius: 50%;
+}
+
+.categorySliderSection .slick-slider .slick-arrow::before{
+    font-size: 30px !important;
+}
+
+.categorySliderSection .slick-arrow:hover::before{
+    color: #1bc052 !important;
+} */
+
+/* ----------------------------------------------------------- */
+
+/* Custom styles for slider arrows */
+.categorySliderSection .slick-prev,
+.categorySliderSection  .slick-next {
+  width: 35px;
+  height: 35px;
+  background-color: #fff; /* Change this to your desired color */
+  border-radius: 50%;
+  box-shadow: 0px 3px 6px rgb(0,0,0,0.16), 0px 3px 6px rgb(0,0,0,0.23);
+  z-index: 100;
+}
+
+
+/* Change color on hover */
+.categorySliderSection .slick-prev:hover,
+.categorySliderSection .slick-next:hover {
+    background: #1bc052 !important;
+    box-shadow: 0px 3px 6px rgb(0,0,0,0.16), 0px 3px 6px rgb(0,0,0,0.23);
+}
+
+.categorySliderSection .slick-prev:before,
+.categorySliderSection .slick-next:before {
+  font-family: "Font Awesome 6 Free"; /* Ensure you're using FontAwesome */
+  font-weight: 900;
+  font-size: 20px;
+  color: #1bc052 !important;
+}
+
+.categorySliderSection .slick-prev:hover::before, 
+.categorySliderSection .slick-next:hover::before{
+    color: #fff !important;
+}
+
+.categorySliderSection .slick-prev:before {
+    content: "\f104"; /* Unicode for left arrow */
+}
+  
+.categorySliderSection .slick-next:before {
+    content: "\f105"; /* Unicode for right arrow */
+}

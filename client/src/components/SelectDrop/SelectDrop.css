@@ -1,0 +1,74 @@
+.selectDropWrapper .openSelect{
+    display: block;
+    padding: 10px 0;
+}
+
+.selectDropWrapper .selectDrop{
+    position: absolute;
+    top: 115%;
+    right: 10px;
+}
+
+.selectDropWrapper .openSelect .selectDropArrow{
+    position: absolute;
+    top: 10px;
+    right: 5px;
+}
+
+.selectDrop{
+    position: absolute;
+    top: 47px;
+    left: -20px;
+    z-index: 200;
+    width: 220px;
+    height: auto;
+    background: #fbfcfc;
+    box-shadow: 0 3px 6px rgba(53, 55, 54, 0.8);
+    padding: 15px;
+    border-radius: 5px;
+}
+
+
+.searchField input{
+    width: 100%;
+    height: 40px;
+    padding: 0 15px;
+    margin-bottom: 10px;
+    color: #515151;
+    border: 1px solid #a4ecbc;
+    border-radius: 5px;
+    outline: none;
+}
+
+.selectDrop .searchResults{
+    width: 100%;
+    margin: 0px;
+    padding: 10px 0px;
+    max-height: 200px;
+    overflow-y: scroll;
+}
+
+.selectDrop .searchResults li{
+    width: 100%;
+    padding: 5px 10px;
+    font-size: 14px;
+    list-style: none;
+    border-radius: 5px;
+}
+
+.selectDrop .searchResults li:hover{
+    background: rgb(66, 228, 120) !important;
+    color: white !important;
+}
+
+.selectDrop .searchResults li.active{
+    background: #a8eabe;
+}
+
+.selectDrop .searchResults::-webkit-scrollbar{
+    width: 10px !important;
+}
+
+.selectDrop .searchResults::-webkit-scrollbar-thumb{
+    background: #a8eabe !important;
+}

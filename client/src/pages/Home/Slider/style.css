@@ -1,0 +1,137 @@
+@import url('https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css');
+@import url('https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css');
+
+.homeSlider {
+    overflow: hidden;
+    padding: 25px 0px;
+}
+
+
+.home_slider_Main {
+    position: relative; 
+}
+
+.homeSlider .home_slider_Main .item img{
+    border-radius: 20px;
+}
+
+
+/*---------------------Slider Arrow Config-----------------------*/
+
+.home_slider_Main .slick-arrow {
+    z-index: 10;        
+    width: 50px;        
+    height: 50px;
+    border-radius: 50% !important;
+    transition: all 0.2s ease-in-out;
+    box-shadow: 0px 3px 6px rgb(0,0,0,0.16), 0px 3px 6px rgb(0,0,0,0.23);
+}
+
+.home_slider_Main .slick-slider button{
+    cursor: pointer;
+}
+
+.home_slider_Main .slick-arrow::before{
+    color: rgba(27, 192, 82, 0.7) !important;
+    font-size: 30px;
+    font-family: FontAwesome !important;
+}
+
+.home_slider_Main .slick-arrow:hover{
+    background: rgba(27, 192, 82, 0.7) !important;
+}
+
+.home_slider_Main .slick-arrow:hover::before{
+    color: #fff !important;
+}
+
+.home_slider_Main .slick-prev {
+    left: 10px !important;
+}
+
+.home_slider_Main .slick-next {
+    right: 10px !important;
+}
+
+.home_slider_Main .slick-prev:before{
+    content: "\f104" !important;
+}
+
+.home_slider_Main .slick-next:before {
+    content: "\f105" !important;
+}
+
+.home_slider_Main .slick-dots{
+    bottom: 30px !important;
+}
+
+.home_slider_Main .slick-dots button::before{
+    color: rgb(27, 192, 82) !important;
+    font-size: 10px !important;
+}
+
+.home_slider_Main .item{
+    position: relative;
+}
+
+.home_slider_Main .item .info{
+    position: absolute;
+    top: 80px;
+    left: 80px;
+    z-index: 100;
+}
+
+.home_slider_Main .item .info h2{
+    font-size: 75px !important;
+    font-weight: 800;
+    color: #253D4E;
+}
+
+.home_slider_Main .item .info p{
+    color: grey;
+    font-size: 30px;
+}
+
+.homeSlider .newsletterBanner{
+    width: 510px;
+    height: 64px;
+    position: absolute;
+    bottom: 50px;
+    left: 100px;
+    z-index: 10;
+    background: #fff;
+    border-radius: 35px;
+}
+
+.homeSlider .newsletterBanner i{
+    font-size: 18px;
+    padding-left: 30px;
+    color: #253d4ecb;
+}
+
+.homeSlider .newsletterBanner input{
+    width: 350px;
+    height: 100%;
+    color: rgba(37, 61, 78, 0.91);
+    border: 0px;
+    border-radius: 35px;
+    outline: none;
+    padding-left: 25px;
+    padding-right: 60px;
+    font-size: 16px;
+}
+
+.homeSlider .newsletterBanner button{
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 160px;
+    height: 100% !important;
+    border-radius: 35px;
+    color: #fff !important;
+    background: #1bc052 !important;
+    text-transform: capitalize !important;
+    font-size: 17px !important;
+    font-weight: 400 !important;
+    letter-spacing: 1.25px;
+}

@@ -1,0 +1,131 @@
+.nav{
+    width: 100%;
+    height: 70px;
+    margin: auto;
+    border-top: 2px solid rgba(27, 192, 82, 0.2);
+    border-bottom: 2px solid rgba(27, 192, 82, 0.2);
+}
+
+.nav .catTab{
+    padding: 8px 10px !important;
+    font-size: 15px;
+    text-transform: capitalize !important;
+}
+
+.nav nav ul li{
+    position: relative;
+}
+
+.nav nav ul li button{
+    padding: 18px 10px;
+    text-transform: capitalize !important;
+    font-size: 17px;
+}
+
+.nav nav ul li a{
+    text-decoration: none !important;
+    color: #1bc052 !important;
+}
+
+.nav nav ul li:first-child svg{
+    font-size: 25px;
+    color: rgb(255, 166, 0)
+}
+
+.nav .part3 .contact{
+    color: #1bc052;
+}
+
+.nav .part3 .contact svg{
+    font-size: 50px !important;
+    opacity: 0.8;
+}
+
+.nav .part3 .contact p{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 14px !important;
+    font-weight: 500;
+}
+
+.nav .part2 .dropdown_menu{
+    position: absolute;
+    top: 150%;
+    left: 0;
+    opacity: 0;
+    visibility: hidden;
+    width: 200px;
+    height: auto;
+    padding-left: 0px;
+    background: #fff;
+    border-radius: 5px;
+    box-shadow: 0 3px 6px rgba(53, 55, 54, 0.8);
+    z-index: 100;
+    transition: all 0.1s ease-in-out;
+}
+
+.nav nav li:hover .dropdown_menu{
+    top: 102%;
+    opacity: 1;
+    visibility: inherit;
+}
+
+.nav .part2 .dropdown_menu ul{
+    padding-left: 0px !important;
+}
+
+.nav .part2 .dropdown_menu li{
+    width: 100%;
+    list-style: none;
+    margin-left: 0px !important;
+}
+
+.nav .part2 .dropdown_menu li button{
+    width: 100% !important;
+    text-transform: capitalize;
+    padding: 6px 0px !important;
+    padding-left: 30px !important;
+    font-size: 16px !important;
+    text-align: left;
+}
+
+.nav .part2 .dropdown_menu li button a{
+    width: 100%;
+}
+
+.nav .part2 .dropdown_menu li button:hover{
+    background: rgb(66, 228, 120) !important;
+}
+
+.nav .part2 .dropdown_menu li button:hover a{
+    color: #fff !important;
+}
+
+.megaMenu{
+    height: auto !important;
+    padding: 30px 45px !important;
+}
+
+.megaMenu .col ul{
+    margin-top: 30px;
+}
+
+.megaMenu h4:hover{
+    color: rgb(255, 166, 0) !important;
+    cursor: pointer;
+}
+
+.megaMenu .col ul li{
+    margin-bottom: 10px !important;
+}
+
+.megaMenu .col ul li a:hover{
+    color: #1bc052 !important;
+}
+
+.megaMenu .col ul li a{
+    color: gray !important;
+    font-size: 16px;
+    font-weight: 500;
+}
