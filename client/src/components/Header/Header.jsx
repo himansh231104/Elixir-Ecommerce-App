@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import axios from 'axios';
+import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../../context/AuthContext';
 import './Header.css';
 import logo from '../../assets/images/logo.svg';
 import SearchIcon from '@mui/icons-material/Search';
 import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
 import SelectDrop from '../SelectDrop/SelectDrop';
-import axios from 'axios';
 import iconCart from '../../assets/images/icon-cart.svg';
 import iconCompare from '../../assets/images/icon-compare.svg';
 import iconHeart from '../../assets/images/icon-heart.svg';
@@ -18,9 +20,17 @@ import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlin
 import TuneOutlinedIcon from '@mui/icons-material/TuneOutlined';
 import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
 import { ClickAwayListener } from '@mui/material';
-import { Navbar } from './Navbar/Navbar';
 
-const Header = () => {
+export const Header = () => {
+
+  const { currentUser, logout } = useAuth();
+  const navigate = useNavigate();
+  
+  const handleLogout = () => {
+    logout();
+    navigate('/login');
+  };
+  
 
   const [isOpenDropDown, setIsOpenDropDown] = useState(false);
 
@@ -135,10 +145,12 @@ const Header = () => {
                             </Button>
                           </li>
                           <li>
-                            <Button>
-                              <FmdGoodOutlinedIcon />
-                              Order Tracking
-                            </Button>
+                            <Link to="/order">
+                              <Button>
+                                <FmdGoodOutlinedIcon />
+                                Order Tracking
+                              </Button>
+                            </Link>
                           </li>
                           <li>
                             <Button>
@@ -159,7 +171,7 @@ const Header = () => {
                             </Button>
                           </li>
                           <li>
-                            <Button>
+                            <Button onClick={handleLogout}>
                               <LogoutOutlinedIcon />
                               Sign Out
                             </Button>
@@ -174,9 +186,6 @@ const Header = () => {
           </div>
         </div>
       </header>
-      <Navbar />
     </>
   );
 }
-
-export default Header;

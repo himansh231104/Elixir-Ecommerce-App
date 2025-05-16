@@ -1,0 +1,440 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap');
+
+:root {
+  --primary-color: #6c63ff;
+  --secondary-color: #f50057;
+  --text-color: #333;
+  --light-text: #666;
+  --background-color: #fafafa;
+  --white: #ffffff;
+  --shadow-color: rgba(0, 0, 0, 0.05);
+  --accent-color: #00d9ff;
+  --border-radius: 12px;
+  --transition-speed: 0.3s;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Montserrat', sans-serif;
+  color: var(--text-color);
+  background-color: var(--background-color);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+.privacy-policy-container {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.privacy-policy-container.loaded {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Decorative Elements */
+.privacy-policy-container .decorative-elements {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: -1;
+  overflow: hidden;
+}
+
+.privacy-policy-container .circle-1 {
+  position: absolute;
+  top: -150px;
+  right: -150px;
+  width: 400px;
+  height: 400px;
+  border-radius: 50%;
+  background: linear-gradient(45deg, rgba(108, 99, 255, 0.1), rgba(0, 217, 255, 0.1));
+  animation: float 15s infinite ease-in-out;
+}
+
+.privacy-policy-container .circle-2 {
+  position: absolute;
+  bottom: -100px;
+  left: -100px;
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  background: linear-gradient(45deg, rgba(245, 0, 87, 0.05), rgba(108, 99, 255, 0.05));
+  animation: float 20s infinite ease-in-out reverse;
+}
+
+.privacy-policy-container .line-1 {
+  position: absolute;
+  top: 30%;
+  left: -100px;
+  width: 200px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--primary-color), transparent);
+  animation: pulse 8s infinite;
+}
+
+.privacy-policy-container .line-2 {
+  position: absolute;
+  top: 70%;
+  right: -100px;
+  width: 200px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--secondary-color), transparent);
+  animation: pulse 8s infinite 2s;
+}
+
+.privacy-policy-container .dot-grid {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: radial-gradient(rgba(0, 0, 0, 0.05) 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+
+/* Header Styles */
+.privacy-policy-container .policy-header {
+  background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+  color: var(--white);
+  padding: 60px 20px;
+  text-align: center;
+  border-radius: 0 0 var(--border-radius) var(--border-radius);
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.privacy-policy-container .policy-header::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(45deg, rgba(255, 255, 255, 0.1) 25%, transparent 25%,
+    transparent 50%, rgba(255, 255, 255, 0.1) 50%, rgba(255, 255, 255, 0.1) 75%,
+    transparent 75%, transparent);
+  background-size: 20px 20px;
+  animation: moveBackground 30s linear infinite;
+  z-index: 1;
+}
+
+.privacy-policy-container .logo-container {
+  position: relative;
+  margin-bottom: 20px;
+  z-index: 2;
+}
+
+.privacy-policy-container .logo {
+  font-family: 'Playfair Display', serif;
+  font-size: 48px;
+  font-weight: 700;
+  position: relative;
+  display: inline-block;
+}
+
+.privacy-policy-container .logo::after {
+  content: '';
+  position: absolute;
+  bottom: -5px;
+  left: 25%;
+  width: 50%;
+  height: 3px;
+  background-color: var(--white);
+  transform: scaleX(0);
+  transform-origin: center;
+  transition: transform 0.5s ease;
+  animation: expandLine 1.5s forwards 0.5s;
+}
+
+.privacy-policy-container .tagline {
+  font-size: 16px;
+  font-weight: 300;
+  letter-spacing: 1px;
+  opacity: 0;
+  animation: fadeIn 1s forwards 1s;
+}
+
+.privacy-policy-container .policy-header .title {
+  font-size: 36px;
+  font-weight: 600;
+  margin: 15px 0 10px;
+  position: relative;
+  z-index: 2;
+}
+
+.privacy-policy-container .policy-header .subtitle {
+  font-size: 16px;
+  font-weight: 400;
+  opacity: 0.8;
+  z-index: 2;
+  position: relative;
+}
+
+/* Policy Content */
+.privacy-policy-container .policy-content {
+  display: flex;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 20px;
+  gap: 40px;
+}
+
+/* Navigation Sidebar */
+.privacy-policy-container .policy-nav {
+  width: 280px;
+  flex-shrink: 0;
+  background-color: var(--white);
+  border-radius: var(--border-radius);
+  box-shadow: 0 4px 20px var(--shadow-color);
+  padding: 20px;
+  position: sticky;
+  top: 20px;
+  height: max-content;
+  transition: all var(--transition-speed);
+}
+
+.privacy-policy-container .policy-nav ul {
+  list-style: none;
+}
+
+.privacy-policy-container .policy-nav li {
+  margin-bottom: 12px;
+  padding: 10px 15px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all var(--transition-speed);
+  position: relative;
+  overflow: hidden;
+}
+
+.privacy-policy-container .policy-nav li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 3px;
+  height: 100%;
+  background-color: var(--primary-color);
+  transform: scaleY(0);
+  transform-origin: bottom;
+  transition: transform 0.3s ease;
+}
+
+.privacy-policy-container .policy-nav li:hover {
+  background-color: rgba(108, 99, 255, 0.05);
+}
+
+.privacy-policy-container .policy-nav li:hover::before {
+  transform: scaleY(1);
+}
+
+.policy-nav li.active {
+  background-color: rgba(108, 99, 255, 0.1);
+  font-weight: 500;
+  color: var(--primary-color);
+}
+
+.privacy-policy-container .policy-nav li.active::before {
+  transform: scaleY(1);
+}
+
+.privacy-policy-container .policy-nav span {
+  position: relative;
+  z-index: 1;
+}
+
+/* Main Content Sections */
+.privacy-policy-container .policy-sections {
+  flex: 1;
+}
+
+.privacy-policy-container .policy-section {
+  background-color: var(--white);
+  border-radius: var(--border-radius);
+  box-shadow: 0 4px 20px var(--shadow-color);
+  padding: 30px;
+  margin-bottom: 30px;
+  transform: translateY(30px);
+  opacity: 0;
+  transition: transform 0.5s ease, opacity 0.5s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.privacy-policy-container .policy-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.5s ease 0.3s;
+}
+
+.privacy-policy-container .policy-section.visible {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.privacy-policy-container .policy-section.visible::before {
+  transform: scaleX(1);
+}
+
+.privacy-policy-container .policy-section h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 24px;
+  margin-bottom: 20px;
+  color: var(--primary-color);
+  position: relative;
+  display: inline-block;
+}
+
+.privacy-policy-container .section-content {
+  color: var(--light-text);
+}
+
+.privacy-policy-container .section-content p {
+  margin-bottom: 15px;
+}
+
+.privacy-policy-container .section-content ul {
+  margin-left: 20px;
+  margin-bottom: 15px;
+}
+
+.privacy-policy-container .section-content li {
+  margin-bottom: 8px;
+  position: relative;
+}
+
+.privacy-policy-container .section-content li::before {
+  content: '•';
+  color: var(--primary-color);
+  font-weight: bold;
+  display: inline-block;
+  width: 1em;
+  margin-left: -1em;
+}
+
+.privacy-policy-container .contact-info {
+  background-color: rgba(108, 99, 255, 0.05);
+  padding: 20px;
+  border-radius: 8px;
+  margin: 20px 0;
+  border-left: 3px solid var(--primary-color);
+}
+
+/* Animations */
+@keyframes float {
+  0%, 100% {
+    transform: translate(0, 0);
+  }
+  25% {
+    transform: translate(-15px, 15px);
+  }
+  50% {
+    transform: translate(10px, -10px);
+  }
+  75% {
+    transform: translate(-5px, 5px);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 0.2;
+    transform: scaleX(0.8);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scaleX(1.2);
+  }
+}
+
+@keyframes moveBackground {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: 100% 100%;
+  }
+}
+
+@keyframes expandLine {
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+  }
+}
+
+/* Responsive Styles */
+@media (max-width: 900px) {
+  .privacy-policy-container .policy-content {
+    flex-direction: column;
+  }
+  
+  .privacy-policy-container .policy-nav {
+    width: 100%;
+    margin-bottom: 30px;
+    position: relative;
+    top: 0;
+  }
+  
+  .privacy-policy-container .policy-nav ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  
+  .privacy-policy-container .policy-nav li {
+    margin-bottom: 0;
+    flex: 1 0 calc(50% - 10px);
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
+@media (max-width: 600px) {
+  .privacy-policy-container .policy-header {
+    padding: 40px 15px;
+  }
+  
+  .privacy-policy-container .logo {
+    font-size: 36px;
+  }
+  
+  .privacy-policy-container .title {
+    font-size: 28px;
+  }
+  
+  .privacy-policy-container .policy-nav li {
+    flex: 1 0 100%;
+  }
+  
+  .privacy-policy-container .policy-section {
+    padding: 20px;
+  }
+}

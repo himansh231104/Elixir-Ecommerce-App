@@ -1,13 +1,25 @@
 import React from 'react';
 import './style.css';
-import Slider from './Slider/index';
+import { useAuth } from '../../context/AuthContext';
+import { Navbar } from '../../components/Navbar/Navbar';
+import Slider from '../../components/Slider/Slider';
 import CategorySlider from '../../components/CategorySlider/CategorySlider';
 import Banners from '../../components/Banners/Banners';
 import Product from '../../components/Product/Product';
 
 export const Home = () => {
+  const { currentUser } = useAuth();
   return (
     <> 
+      <Navbar/>
+      <div className="hero-section">
+        <div className="hero-content">
+          {console.log(currentUser)}
+          <h1>Welcome to Elixir, {currentUser?.fullName || 'Shopper'}!</h1>
+          <p>Discover the magic of shopping with personalized recommendations just for you.</p>
+          <button className="shop-now-btn">Shop Now</button>
+        </div>
+      </div>
       <Slider/>
       <CategorySlider/>
       <Banners/>
