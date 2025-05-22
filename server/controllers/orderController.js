@@ -67,12 +67,15 @@ const getOrderById = async (req, res) => {
 // @access  Private
 const getMyOrders = async (req, res) => {
   try {
-    const orders = await Order.find({ user: req.user._id });
+    const orders = await Order.find({ user: req.user._id })
+      .populate('orderItems.product', 'name image price brand category'); 
+
     res.json(orders);
   } catch (error) {
-    res.status(500).json({ message: "Unable to fetch your orders" });
+    res.status(500).json({ message: "Unable to fetch your orders", error: error.message });
   }
 };
+
 
 // @desc    Get all orders (admin only)
 // @route   GET /api/orders

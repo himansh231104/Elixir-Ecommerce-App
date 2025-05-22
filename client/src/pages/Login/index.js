@@ -52,11 +52,7 @@ export const Login = () => {
       // Create a user object with form data
       const userData = {
         email,
-        // In a real app, never store raw passwords in local storage
-        // This is just for demonstration
-        // You would normally only store tokens or user info
-        fullName: isSignUp ? e.target.elements.fullName?.value || 'User' : 'User',
-        id: Date.now().toString(), // temporary ID
+        password,
       };
       
       // Simulate API call with timeout

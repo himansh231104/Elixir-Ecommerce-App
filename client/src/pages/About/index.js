@@ -165,7 +165,7 @@ export const About = () => {
             <motion.div className="team-member" variants={scaleUp}>
               <div className="member-photo">
                 <div className="photo-placeholder" style={{
-                  backgroundImage: `url('profile.jpg')`,
+                  backgroundImage: `url('/assets/userProfile/profile.jpg')`,
                   backgroundSize: 'cover',
                   backgroundRepeat: 'no-repeat',
                   width: '100%',
@@ -183,7 +183,7 @@ export const About = () => {
             <motion.div className="team-member" variants={scaleUp}>
               <div className="member-photo">
                 <div className="photo-placeholder" style={{
-                  backgroundImage: `url('abhi.jpg')`,
+                  backgroundImage: `url('/assets/userProfile/abhi.jpg')`,
                   backgroundSize: 'cover',
                   backgroundRepeat: 'no-repeat',
                   width: '100%',
@@ -200,7 +200,7 @@ export const About = () => {
             <motion.div className="team-member" variants={scaleUp}>
               <div className="member-photo">
                 <div className="photo-placeholder" style={{
-                  backgroundImage: `url('hima.jpg')`,
+                  backgroundImage: `url('/assets/userProfile/hima.jpg')`,
                   backgroundSize: 'cover',
                   backgroundRepeat: 'no-repeat',
                   width: '100%',
@@ -217,7 +217,7 @@ export const About = () => {
             <motion.div className="team-member" variants={scaleUp}>
               <div className="member-photo">
                 <div className="photo-placeholder" style={{
-                  backgroundImage: `url('aashu.jpg')`,
+                  backgroundImage: `url('/assets/userProfile/aashu.jpg')`,
                   backgroundSize: 'cover',
                   backgroundRepeat: 'no-repeat',
                   width: '100%',
