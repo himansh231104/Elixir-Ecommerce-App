@@ -3,6 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
+import API from '../../utils/axiosConfig';
 import './Header.css';
 import { Navbar } from '../Navbar/Navbar';
 import logo from '../../assets/images/logo.png';
@@ -39,21 +40,16 @@ export const Header = () => {
     
     useEffect(() => {
       const fetchAllData = async () => {
-        try {
-          const token = localStorage.getItem('token');
-          const headers = {
-            Authorization: `Bearer ${token}`
-          };
-  
-          const profileRes = await axios.get('http://localhost:5000/api/users/profile', { headers })
+        try {  
+          const profileRes = await API.get('/users/profile')
   
           setUserData(profileRes.data);
           const userId = profileRes.data._id;
           console.log( userId); 
           const [ordersRes, cartRes, wishlistRes] = await Promise.all([
-            axios.get(`http://localhost:5000/api/orders/myorders`, { headers }),
-            axios.get(`http://localhost:5000/api/cart`, { headers }),
-            axios.get(`http://localhost:5000/api/wishlist/${userId}`, { headers })
+            API.get('/orders/myorders'),
+            API.get('/cart'),
+            API.get(`/wishlist/${userId}`)
           ]);
           setOrders(ordersRes.data);
           setCartCount(Array.isArray(cartRes?.data?.items) ? cartRes.data.items.length : 0);

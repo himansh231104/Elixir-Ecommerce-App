@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import './style.css';
 import { useAuth } from '../../context/AuthContext';
-import { Navbar } from '../../components/Navbar/Navbar';
 import SliderBanner from '../../components/Slider/Slider';
 import CategorySlider from '../../components/CategorySlider/CategorySlider';
 import Banners from '../../components/Banners/Banners';
@@ -25,34 +24,6 @@ export const Home = () => {
     autoplaySpeed: 3000, 
     pauseOnHover: true, 
   };  
-  const { token } = useAuth();
-  const [data, setData] = useState({});
-
-  useEffect(() => {
-    const fetchProfile = async () => {
-      try {
-        const token = localStorage.getItem('token'); // or from context if you're using useAuth()
-
-        const response = await axios.get('http://localhost:5000/api/users/profile', {
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
-        });
-
-        setData(response.data);
-      } catch (error) {
-        if (error.response) {
-          console.error('Response error:', error.response.data);
-        } else if (error.request) {
-          console.error('No response received:', error.request);
-        } else {
-          console.error('Error setting up request:', error.message);
-        }
-      }
-    };
-
-    fetchProfile();
-  }, []);
 
 
   return (

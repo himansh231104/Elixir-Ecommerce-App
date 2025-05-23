@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
 import { useAuth } from '../../context/AuthContext';
-import { FaUser, FaShoppingBag, FaHeart, FaEdit, FaSignOutAlt, FaHistory, FaStar, FaTrophy, FaMedal } from 'react-icons/fa';
+import API from '../../utils/axiosConfig';
+import { FaUser, FaShoppingBag, FaHeart, FaEdit, FaSignOutAlt, FaHistory } from 'react-icons/fa';
 import { motion, AnimatePresence } from 'framer-motion';
 import './style.css';
 
@@ -25,18 +25,13 @@ export const UserProfile = () => {
   useEffect(() => {
     const fetchAllData = async () => {
       try {
-        const token = localStorage.getItem('token');
-        const headers = {
-          Authorization: `Bearer ${token}`
-        };
-
-        const profileRes = await axios.get('http://localhost:5000/api/users/profile', { headers })
+        const profileRes = await API.get('/users/profile')
 
         setUserData(profileRes.data);
         const userId = profileRes.data._id;
         const [ordersRes, wishlistRes] = await Promise.all([
-          axios.get(`http://localhost:5000/api/orders/myorders`, { headers }),
-          axios.get(`http://localhost:5000/api/wishlist/${userId}`, { headers })
+          API.get(`/orders/myorders`),
+          API.get(`/wishlist/${userId}`)
         ]);
         setOrders(ordersRes.data);
         setWishlist(wishlistRes.data);
