@@ -16,7 +16,7 @@ import { Order }  from './pages/Order';
 import { Policy }  from './pages/Policy';
 import { TermsOfService }  from './pages/Terms';
 import { NotFoundPage }  from './pages/404';
-import {Footer} from './components/Footer/Footer';
+import { Footer } from './components/Footer/Footer';
 
 function App() {
   return (

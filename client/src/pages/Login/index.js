@@ -61,11 +61,9 @@ export const Login = () => {
       if (isSignUp) {
         // Handle signup
         signup(userData);
-        alert('Account created successfully!');
       } else {
         // Handle login
         login(userData);
-        alert('Login successful!');
       }
       
       // Redirect to home page after successful authentication

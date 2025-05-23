@@ -93,6 +93,9 @@ header .headerTabs li span{
 
 header .headerTabs li span img{
     margin-right: 10px;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
 }
 
 header .headerTabs li span.badge{

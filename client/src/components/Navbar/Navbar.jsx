@@ -30,12 +30,12 @@ export const Navbar = () => {
                 </li>
                 <li className="list-inline-item">
                   <Button>
-                    <Link>Home</Link>
+                    <Link to="/" >Home</Link>
                   </Button>
                 </li>
                 <li className="list-inline-item">
                   <Button>
-                    <Link>About</Link>
+                    <Link to="/about" >About</Link>
                   </Button>
                 </li>
                 <li className="list-inline-item">
@@ -302,7 +302,7 @@ export const Navbar = () => {
                 </li>
                 <li className="list-inline-item">
                   <Button>
-                    <Link>Contact</Link>
+                    <Link to="/contact" >Contact</Link>
                   </Button>
                 </li>
               </ul>

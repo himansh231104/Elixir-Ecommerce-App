@@ -4,6 +4,7 @@ import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import './Header.css';
+import { Navbar } from '../Navbar/Navbar';
 import logo from '../../assets/images/logo.png';
 import SearchIcon from '@mui/icons-material/Search';
 import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
@@ -25,12 +26,46 @@ export const Header = () => {
 
   const { currentUser, logout } = useAuth();
   const navigate = useNavigate();
+  const [orders, setOrders] = useState(null);
+  const [cartCount, setCartCount] = useState(null);
+    const [wishlist, setWishlist] = useState(null);
+    const [wishlistCount, setWishlistCount] = useState(0);
+    const [userData, setUserData] = useState({});
+    
+    const handleLogout = () => {
+      logout();
+      navigate('/login');
+    };
+    
+    useEffect(() => {
+      const fetchAllData = async () => {
+        try {
+          const token = localStorage.getItem('token');
+          const headers = {
+            Authorization: `Bearer ${token}`
+          };
   
-  const handleLogout = () => {
-    logout();
-    navigate('/login');
-  };
+          const profileRes = await axios.get('http://localhost:5000/api/users/profile', { headers })
   
+          setUserData(profileRes.data);
+          const userId = profileRes.data._id;
+          console.log( userId); 
+          const [ordersRes, cartRes, wishlistRes] = await Promise.all([
+            axios.get(`http://localhost:5000/api/orders/myorders`, { headers }),
+            axios.get(`http://localhost:5000/api/cart`, { headers }),
+            axios.get(`http://localhost:5000/api/wishlist/${userId}`, { headers })
+          ]);
+          setOrders(ordersRes.data);
+          setCartCount(Array.isArray(cartRes?.data?.items) ? cartRes.data.items.length : 0);
+          setWishlistCount(Array.isArray(wishlistRes?.data?.items) ? wishlistRes.data.items.length : 0);
+          setWishlist(wishlistRes.data);
+        } catch (error) {
+          console.error('Error fetching user or cart data:', error);
+        }
+      };
+  
+      fetchAllData();
+    }, []);
 
   const [isOpenDropDown, setIsOpenDropDown] = useState(false);
 
@@ -115,7 +150,7 @@ export const Header = () => {
                       <span>
                         <img src={iconHeart} alt="" />
                         <span className="badge bg-g rounded-circle">
-                          6
+                          { wishlistCount? wishlistCount : 0}  
                         </span>
                         Wishlist
                       </span>
@@ -123,7 +158,9 @@ export const Header = () => {
                     <li className="list-inline-item">
                       <span>
                         <img src={iconCart} alt="" />
-                        <span className="badge bg-g rounded-circle">2</span>
+                        <span className="badge bg-g rounded-circle">
+                          {cartCount ? cartCount : 0}
+                        </span>
                         Cart
                       </span>
                     </li>
@@ -132,16 +169,34 @@ export const Header = () => {
                       onClick={() => setIsOpenDropDown(!isOpenDropDown)}
                     >
                       <span>
-                        <AccountCircleOutlinedIcon className="userIcon" />
-                        Account
+                        {currentUser && currentUser.profileImage ? (
+                          <img
+                            src={`/assets/userProfile/${currentUser.profileImage}`}
+                            alt="User Icon"
+                            className="userIcon"
+                          />
+                        ) : (
+                          <AccountCircleOutlinedIcon className="userIcon" />
+                        )
+                        }
+                        <span title={currentUser?.name || "Sign In"}>
+                          {typeof currentUser?.name === "string"
+                            ? currentUser.name.length > 10
+                              ? currentUser.name.slice(0, 8) + "..."
+                              : currentUser.name
+                            : "Sign In"}
+                        </span>
+
                       </span>
 
                       {isOpenDropDown !== false && (
                         <ul className="dropDownMenu">
                           <li>
                             <Button>
-                              <PersonOutlineOutlinedIcon />
-                              My Account
+                              <Link to="/profile">
+                                <PersonOutlineOutlinedIcon />
+                                My Account
+                              </Link>
                             </Button>
                           </li>
                           <li>
@@ -186,6 +241,7 @@ export const Header = () => {
           </div>
         </div>
       </header>
+      <Navbar/>
     </>
   );
 }

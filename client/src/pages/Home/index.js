@@ -57,15 +57,6 @@ export const Home = () => {
 
   return (
     <> 
-      <Navbar/>
-      <div className="hero-section">
-        <div className="hero-content">
-          {console.log(token)}
-          <h1>Welcome to Elixir, {token?.fullName || 'Shopper'}!</h1>
-          <p>Discover the magic of shopping with personalized recommendations just for you.</p>
-          <button className="shop-now-btn">Shop Now</button>
-        </div>
-      </div>
       <SliderBanner/>
       <CategorySlider/>
       <Banners/>
