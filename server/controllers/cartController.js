@@ -4,7 +4,7 @@ const Product = require("../models/productModel");
 // @desc    Get Cart for logged-in user
 // @route   GET /api/cart
 // @access  Private
-const getCart = async (req, res) => {
+const getMyCart = async (req, res) => {
   try {
     const cart = await Cart.findOne({ user: req.user._id }).populate("items.product");
     
@@ -111,4 +111,4 @@ const removeFromCart = async (req, res) => {
   }
 };
 
-module.exports = { getCart, addToCart, updateCartItem, removeFromCart };
+module.exports = { getMyCart, addToCart, updateCartItem, removeFromCart };

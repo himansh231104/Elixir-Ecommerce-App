@@ -30,7 +30,7 @@ export const AuthProvider = ({ children }) => {
 
   const signup = async (userData) => {
     try {
-      const response = await API.post('/users/signup', userData);
+      const response = await API.post('/users/register', userData);
       if (response.data && response.data.token) {
         localStorage.setItem('token', response.data.token);
         setCurrentUser(response.data.user);

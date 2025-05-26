@@ -152,7 +152,7 @@ export const Header = () => {
                       </span>
                     </li>
                     <li className="list-inline-item">
-                      <span>
+                      <span onClick={() => navigate('/cart')}>
                         <img src={iconCart} alt="" />
                         <span className="badge bg-g rounded-circle">
                           {cartCount ? cartCount : 0}
@@ -182,9 +182,7 @@ export const Header = () => {
                               : currentUser.name
                             : "Sign In"}
                         </span>
-
                       </span>
-
                       {isOpenDropDown !== false && (
                         <ul className="dropDownMenu">
                           <li>

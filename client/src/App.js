@@ -1,16 +1,15 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import { ProtectedRoute, AuthRedirect } from './context/ProtectedRoute';
 import { Header } from './components/Header/Header';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { Home } from './pages/Home';
 import { About } from './pages/About';
 import { Contact } from './pages/Contact';
-import { Signup } from './pages/Signup';
-import { Login } from './pages/Login';
+import { LoginSignup } from './pages/LoginSignup';
 import { UserProfile }  from './pages/UserProfile';
-import { Product }  from './pages/Product';
+import { ProductPage }  from './pages/Product';
 import { Cart }  from './pages/Cart';
 import { Order }  from './pages/Order';
 import { Policy }  from './pages/Policy';
@@ -27,10 +26,10 @@ function App() {
           <Route exact={true} path="/" element={<Home/>}/>
           <Route exact={true} path="/about" element={<About/>}/>
           <Route exact={true} path="/contact" element={<Contact/>}/>
-          <Route exact={true} path="/signup" element={<Signup/>}/>
-          <Route exact={true} path="/login" element={<AuthRedirect><Login/></AuthRedirect>}/>
+          <Route exact={true} path="/signup" element={<AuthRedirect><LoginSignup/></AuthRedirect>}/>
+          <Route exact={true} path="/login" element={<AuthRedirect><LoginSignup/></AuthRedirect>}/>
           <Route exact={true} path="/profile" element={ <UserProfile/> }/>
-          <Route exact={true} path="/product" element={ <ProtectedRoute><Product/></ProtectedRoute> }/>
+          <Route exact={true} path="/product/:id" element={ <ProtectedRoute><ProductPage/></ProtectedRoute> }/>
           <Route exact={true} path="/cart" element={ <ProtectedRoute><Cart/></ProtectedRoute> }/>
           <Route exact={true} path="/order" element={ <ProtectedRoute><Order/></ProtectedRoute> }/>
           <Route exact={true} path="/privacy-policy" element={<Policy/>}/>

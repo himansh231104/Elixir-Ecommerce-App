@@ -62,9 +62,19 @@ export const UserProfile = () => {
     setIsEditing(!isEditing);
   };
   
-  const handleInputChange = (e) => {
+  const handleInputChange = async (e) => {
     const { name, value } = e.target;
     setUserData({ ...userData, [name]: value });
+    try {
+          const response = await API.put('/users/profile', userData);
+          if (response.data && response.data.token) {
+            return true;
+          }
+          return false;
+        } catch (err) {
+          console.error('Update failed:', err);
+          return false;
+        }
   };
   
   const handleSubmit = (e) => {
@@ -157,8 +167,8 @@ export const UserProfile = () => {
             onClick={() => handleTabChange('orders')}
           >
             <FaShoppingBag /> Orders
-            {orders && orders.length > 0 && (
-              <span className="notification-badge">{orders.length}</span>
+            {orders && orders[0]?.orderItems?.length > 0 && activeTab === 'orders' && (
+              <span className="notification-badge">{orders[0]?.orderItems?.length}</span>
             )}
           </button>
           <button 
@@ -166,7 +176,7 @@ export const UserProfile = () => {
             onClick={() => handleTabChange('wishlist')}
           >
             <FaHeart /> Wishlist
-            {wishlist && wishlist.items && wishlist.items.length > 0 && (
+            {wishlist && wishlist.items && wishlist.items.length > 0 && activeTab === 'wishlist' && (
               <span className="notification-badge">{wishlist.items.length}</span>
             )}
           </button>
@@ -209,7 +219,7 @@ export const UserProfile = () => {
                         type="text"
                         name="name"
                         value={userData.name}
-                        onChange={handleInputChange}
+                        onInput={handleInputChange}
                         required
                       />
                     </div>
@@ -219,7 +229,7 @@ export const UserProfile = () => {
                         type="email"
                         name="email"
                         value={userData.email}
-                        onChange={handleInputChange}
+                        onInput={handleInputChange}
                         required
                         disabled
                       />
@@ -230,7 +240,7 @@ export const UserProfile = () => {
                         type="tel"
                         name="mobileNumber"
                         value={userData.mobileNumber}
-                        onChange={handleInputChange}
+                        onInput={handleInputChange}
                         required
                       />
                     </div>
@@ -239,7 +249,7 @@ export const UserProfile = () => {
                       <textarea
                         name="address"
                         value={userData.address}
-                        onChange={handleInputChange}
+                        onInput={handleInputChange}
                         rows="3"
                       />
                     </div>
@@ -285,7 +295,7 @@ export const UserProfile = () => {
                 variants={fadeIn}
               >
                 <h2>Your Orders</h2>
-                {orders && orders.length > 0 ? (
+                {orders && orders[0]?.orderItems?.length > 0 ? (
                   <div className="orders-container">
                     {orders.map((order, index) => (
                       <motion.div 

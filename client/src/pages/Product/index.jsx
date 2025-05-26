@@ -1,261 +1,362 @@
-import React, { useState, useEffect } from "react";
-import { Heart, ShoppingCart, Star, ChevronLeft, ChevronRight } from "lucide-react";
-import "./style.css";
+import React, { useState, useEffect } from 'react';
+import './style.css';
+import API from '../../utils/axiosConfig';
+import { useParams } from 'react-router-dom';
 
-export const Product = () => {
-  // Mock product data (replace with actual API call)
-  const [product, setProduct] = useState({
-    id: 1,
-    name: "Premium Leather Jacket",
-    price: 249.99,
-    discount: 20,
-    rating: 4.8,
-    reviewCount: 124,
-    description: "Premium quality leather jacket with a modern design. Features multiple pockets, adjustable cuffs, and a stylish collar. Perfect for everyday wear and special occasions.",
-    features: [
-      "Genuine leather material",
-      "Soft inner lining for comfort",
-      "Water-resistant finish",
-      "Durable YKK zippers",
-      "Available in multiple sizes"
-    ],
-    images: [
-      "/api/placeholder/600/800",
-      "/api/placeholder/600/800",
-      "/api/placeholder/600/800",
-      "/api/placeholder/600/800"
-    ],
-    colors: ["#000", "#472D2D", "#7B3F00"],
-    sizes: ["S", "M", "L", "XL", "XXL"],
-    stock: 15
-  });
-
+export const ProductPage = () => {
+  const { id } = useParams();
+  const [user, setUser] = useState(null);
+  const [product, setProduct] = useState({});
   const [selectedImage, setSelectedImage] = useState(0);
-  const [selectedColor, setSelectedColor] = useState(0);
-  const [selectedSize, setSelectedSize] = useState(1);
   const [quantity, setQuantity] = useState(1);
-  const [isDescriptionExpanded, setIsDescriptionExpanded] = useState(false);
+  const [activeTab, setActiveTab] = useState('description');
   const [isLoading, setIsLoading] = useState(true);
-  const [isWishlisted, setIsWishlisted] = useState(false);
+  const [isInWishlist, setIsInWishlist] = useState(false);
 
-  // Simulating API loading
+  // Sample product data based on your schema
+  // const product = {
+  //   _id: "64a1b2c3d4e5f6789012345",
+  //   name: "Premium Wireless Headphones",
+  //   image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500&h=500&fit=crop",
+  //   brand: "AudioTech",
+  //   category: "Electronics",
+  //   description: "Experience premium sound quality with these wireless headphones featuring active noise cancellation, 30-hour battery life, and premium comfort padding. Perfect for music lovers and professionals alike.",
+  //   price: 299.99,
+  //   countInStock: 15,
+  //   rating: 4.5,
+  //   numReviews: 128,
+  //   reviews: [
+  //     {
+  //       _id: "1",
+  //       name: "John Doe",
+  //       rating: 5,
+  //       comment: "Excellent sound quality and comfortable to wear for long periods!",
+  //       user: "64a1b2c3d4e5f6789012346"
+  //     },
+  //     {
+  //       _id: "2", 
+  //       name: "Sarah Johnson",
+  //       rating: 4,
+  //       comment: "Great headphones, battery life is amazing. Slightly heavy but worth it.",
+  //       user: "64a1b2c3d4e5f6789012347"
+  //     },
+  //     {
+  //       _id: "3",
+  //       name: "Mike Chen",
+  //       rating: 5,
+  //       comment: "Best purchase I've made this year. The noise cancellation is incredible!",
+  //       user: "64a1b2c3d4e5f6789012348"
+  //     }
+  //   ]
+  // };
+
+  // const productImages = [
+  //   "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500&h=500&fit=crop",
+  //   "https://images.unsplash.com/photo-1484704849700-f032a568e944?w=500&h=500&fit=crop",
+  //   "https://images.unsplash.com/photo-1487215078519-e21cc028cb29?w=500&h=500&fit=crop",
+  //   "https://images.unsplash.com/photo-1583394838336-acd977736f90?w=500&h=500&fit=crop"
+  // ];
+
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsLoading(false);
-    }, 1000);
+    const fetchProduct = async () => {
+      try {
+        const res = await API.get(`/products/${id}`);
+        setProduct(res.data);
+      } catch (error) {
+        console.error('Error fetching product:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchProduct();
+  }, [id]);
+
+    useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const profileRes = await API.get('/users/profile')
+        setUser(profileRes.data);
+      } catch (error) {
+        console.error('Error fetching userdata:', error);
+      }
+    };
+    fetchUserData();
+  }, []);
+
+  useEffect(() => {
+    // Simulate loading
+    const timer = setTimeout(() => setIsLoading(false), 1500);
     return () => clearTimeout(timer);
   }, []);
 
-  // Calculate discounted price
-  const discountedPrice = product.price * (1 - product.discount / 100);
-
-  // Handle image carousel
-  const nextImage = () => {
-    setSelectedImage((prev) => (prev + 1) % product.images.length);
+  const handleAddToCart = async () => {
+    // Add to cart logic here
+      try {
+        const items = [{ product: product._id, quantity }];
+        const res = await API.post(`/cart`, { items, user });
+        console.log(res.data);
+      } catch (error) {
+        console.error('Error fetching product:', error);
+      }
+    console.log(`Added ${quantity} ${product.name}(s) to cart`);
   };
-  
-  const prevImage = () => {
-    setSelectedImage((prev) => (prev - 1 + product.images.length) % product.images.length);
+
+  const handleBuyNow = () => {
+    // Buy now logic here
+    console.log(`Buying ${quantity} ${product.name}(s) now`);
   };
 
-  // Add to cart function
-  const addToCart = () => {
-    // Animation trigger
-    const button = document.querySelector(".add-to-cart-btn");
-    button.classList.add("added");
-    setTimeout(() => {
-      button.classList.remove("added");
-    }, 1500);
+  const renderStars = (rating) => {
+    const stars = [];
+    const fullStars = Math.floor(rating);
+    const hasHalfStar = rating % 1 !== 0;
+
+    for (let i = 0; i < fullStars; i++) {
+      stars.push(<span key={i} className="star filled">★</span>);
+    }
     
-    // Here you would add the product to cart logic
-    console.log("Added to cart:", {
-      ...product,
-      quantity,
-      selectedColor: product.colors[selectedColor],
-      selectedSize: product.sizes[selectedSize]
-    });
-  };
-
-  // Toggle wishlist
-  const toggleWishlist = () => {
-    setIsWishlisted(!isWishlisted);
+    if (hasHalfStar) {
+      stars.push(<span key="half" className="star half">★</span>);
+    }
+    
+    const emptyStars = 5 - Math.ceil(rating);
+    for (let i = 0; i < emptyStars; i++) {
+      stars.push(<span key={`empty-${i}`} className="star empty">★</span>);
+    }
+    
+    return stars;
   };
 
   if (isLoading) {
     return (
-      <div className="product-page loading-screen">
-        <div className="loader"></div>
+      <div className="product-page loading-container">
+        <div className="loading-spinner"></div>
+        <p>Loading product details...</p>
       </div>
     );
   }
 
   return (
     <div className="product-page">
-      <div className="product-page-container">
-        {/* Product images section */}
-        <div className="product-images">
-          <div className="main-image-container">
-            <button className="image-nav prev" onClick={prevImage}>
-              <ChevronLeft size={24} />
-            </button>
-            <img
-              src={product.images[selectedImage]}
-              alt={product.name}
-              className="main-image"
-            />
-            <button className="image-nav next" onClick={nextImage}>
-              <ChevronRight size={24} />
-            </button>
-            <button 
-              className={`wishlist-btn ${isWishlisted ? 'active' : ''}`}
-              onClick={toggleWishlist}
-            >
-              <Heart size={24} fill={isWishlisted ? "#ff4d4d" : "none"} color={isWishlisted ? "#ff4d4d" : "#333"} />
-            </button>
-          </div>
-          
-          <div className="thumbnail-container">
-            {product.images.map((image, index) => (
-              <div 
-                key={index} 
-                className={`thumbnail ${selectedImage === index ? 'active' : ''}`}
-                onClick={() => setSelectedImage(index)}
-              >
-                <img src={image} alt={`${product.name} - view ${index + 1}`} />
+      <div className="container">
+        <div className="product-content">
+          {/* Product Images Section */}
+          <div className="product-images">
+            <div className="main-image-container">
+              <img 
+                src={`/assets/products/${product.image}.jpg`} 
+                alt={product.name}
+                className="main-image"
+              />
+              <div className="image-overlay">
+                <button className="zoom-btn">🔍</button>
+                <button 
+                  className={`wishlist-btn ${isInWishlist ? 'active' : ''}`}
+                  onClick={() => setIsInWishlist(!isInWishlist)}
+                >
+                  ❤️
+                </button>
               </div>
-            ))}
+            </div>
+            <div className="thumbnail-container">
+              {/* {product.image.map((img, index) => ( */}
+                <img
+                  // key={index}
+                  src={`/assets/products/${product.image}.jpg`}
+                  alt={`${product.name}`}
+                  className={`thumbnail`}
+                  
+                />
+              {/* ))} */}
+            </div>
+          </div>
+
+          {/* Product Info Section */}
+          <div className="product-info">
+            <div className="product-header">
+              <div className="brand-badge">{product.brand}</div>
+              <h1 className="product-title">{product.name}</h1>
+              <div className="rating-section">
+                <div className="stars">
+                  {renderStars(product.rating)}
+                </div>
+                <span className="rating-text">
+                  {product.rating} ({product.numReviews} reviews)
+                </span>
+              </div>
+            </div>
+
+            <div className="price-section">
+              <span className="current-price">${product.price}</span>
+              <span className="original-price">$399.99</span>
+              <span className="discount-badge">25% OFF</span>
+            </div>
+
+            <div className="stock-info">
+              <span className={`stock-status ${product.countInStock > 0 ? 'in-stock' : 'out-of-stock'}`}>
+                {product.countInStock > 0 ? `✓ In Stock (${product.countInStock} available)` : '✗ Out of Stock'}
+              </span>
+            </div>
+
+            <div className="quantity-section">
+              <label>Quantity:</label>
+              <div className="quantity-controls">
+                <button 
+                  className="qty-btn"
+                  onClick={() => setQuantity(Math.max(1, quantity - 1))}
+                >
+                  -
+                </button>
+                <span className="quantity">{quantity}</span>
+                <button 
+                  className="qty-btn"
+                  onClick={() => setQuantity(Math.min(product.countInStock, quantity + 1))}
+                >
+                  +
+                </button>
+              </div>
+            </div>
+
+            <div className="action-buttons">
+              <button 
+                className="add-to-cart-btn"
+                onClick={handleAddToCart}
+                disabled={product.countInStock === 0}
+              >
+                <span>🛒</span> Add to Cart
+              </button>
+              <button 
+                className="buy-now-btn"
+                onClick={handleBuyNow}
+                disabled={product.countInStock === 0}
+              >
+                <span>⚡</span> Buy Now
+              </button>
+            </div>
+
+            <div className="features-list">
+              <div className="feature-item">
+                <span className="feature-icon">🚚</span>
+                <span>Free shipping on orders over $100</span>
+              </div>
+              <div className="feature-item">
+                <span className="feature-icon">↩️</span>
+                <span>30-day return policy</span>
+              </div>
+              <div className="feature-item">
+                <span className="feature-icon">🛡️</span>
+                <span>2-year warranty included</span>
+              </div>
+            </div>
           </div>
         </div>
 
-        {/* Product details section */}
-        <div className="product-details">
-          <h1 className="product-name">{product.name}</h1>
-          
-          <div className="product-rating">
-            <div className="stars">
-              {[...Array(5)].map((_, i) => (
-                <Star 
-                  key={i} 
-                  size={18} 
-                  fill={i < Math.floor(product.rating) ? "#FFD700" : "none"}
-                  color={i < Math.floor(product.rating) ? "#FFD700" : "#ccc"}
-                />
-              ))}
-            </div>
-            <span className="rating-value">{product.rating}</span>
-            <span className="review-count">({product.reviewCount} reviews)</span>
-          </div>
-          
-          <div className="product-price">
-            <span className="current-price">${discountedPrice.toFixed(2)}</span>
-            {product.discount > 0 && (
-              <>
-                <span className="original-price">${product.price.toFixed(2)}</span>
-                <span className="discount-badge">-{product.discount}%</span>
-              </>
-            )}
-          </div>
-          
-          <div className="product-description">
-            <p className={isDescriptionExpanded ? 'expanded' : ''}>
-              {product.description}
-            </p>
+        {/* Product Details Tabs */}
+        <div className="product-tabs">
+          <div className="tab-headers">
             <button 
-              className="read-more" 
-              onClick={() => setIsDescriptionExpanded(!isDescriptionExpanded)}
+              className={`tab-header ${activeTab === 'description' ? 'active' : ''}`}
+              onClick={() => setActiveTab('description')}
             >
-              {isDescriptionExpanded ? 'Read Less' : 'Read More'}
+              Description
+            </button>
+            <button 
+              className={`tab-header ${activeTab === 'specifications' ? 'active' : ''}`}
+              onClick={() => setActiveTab('specifications')}
+            >
+              Specifications
+            </button>
+            <button 
+              className={`tab-header ${activeTab === 'reviews' ? 'active' : ''}`}
+              onClick={() => setActiveTab('reviews')}
+            >
+              Reviews ({product.numReviews})
             </button>
           </div>
-          
-          <div className="product-colors">
-            <h3>Color:</h3>
-            <div className="color-options">
-              {product.colors.map((color, index) => (
-                <div 
-                  key={index}
-                  className={`color-option ${selectedColor === index ? 'active' : ''}`}
-                  style={{ backgroundColor: color }}
-                  onClick={() => setSelectedColor(index)}
-                ></div>
-              ))}
-            </div>
-          </div>
-          
-          <div className="product-sizes">
-            <h3>Size:</h3>
-            <div className="size-options">
-              {product.sizes.map((size, index) => (
-                <div 
-                  key={index}
-                  className={`size-option ${selectedSize === index ? 'active' : ''}`}
-                  onClick={() => setSelectedSize(index)}
-                >
-                  {size}
+
+          <div className="tab-content">
+            {activeTab === 'description' && (
+              <div className="tab-panel">
+                <h3>Product Description</h3>
+                <p>{product.description}</p>
+                <div className="description-features">
+                  <h4>Key Features:</h4>
+                  <ul>
+                    <li>Active Noise Cancellation Technology</li>
+                    <li>30-hour battery life with quick charge</li>
+                    <li>Premium comfort padding</li>
+                    <li>Bluetooth 5.0 connectivity</li>
+                    <li>Touch controls for easy operation</li>
+                  </ul>
                 </div>
-              ))}
-            </div>
-          </div>
-          
-          <div className="product-quantity">
-            <h3>Quantity:</h3>
-            <div className="quantity-selector">
-              <button 
-                className="quantity-btn" 
-                onClick={() => setQuantity(prev => Math.max(1, prev - 1))}
-                disabled={quantity <= 1}
-              >
-                -
-              </button>
-              <input 
-                type="number" 
-                value={quantity} 
-                onChange={(e) => setQuantity(Math.max(1, parseInt(e.target.value) || 1))}
-                min="1"
-                max={product.stock}
-              />
-              <button 
-                className="quantity-btn" 
-                onClick={() => setQuantity(prev => Math.min(product.stock, prev + 1))}
-                disabled={quantity >= product.stock}
-              >
-                +
-              </button>
-            </div>
-            <span className="stock-info">{product.stock} items in stock</span>
-          </div>
-          
-          <div className="product-actions">
-            <button className="add-to-cart-btn" onClick={addToCart}>
-              <ShoppingCart size={20} />
-              <span>Add to Cart</span>
-            </button>
-            <button className="buy-now-btn">Buy Now</button>
-          </div>
-          
-          <div className="product-features">
-            <h3>Product Features:</h3>
-            <ul className="features-list">
-              {product.features.map((feature, index) => (
-                <li key={index} className="feature-item">{feature}</li>
-              ))}
-            </ul>
-          </div>
-          
-            <div className="delivery-info">
-              <div className="icon">🚚</div>
-              <span>Free Delivery</span>
-            </div>
-            <div className="delivery-info">
-              <div className="icon">↩️</div>
-              <span>30 Days Return</span>
-            </div>
-            <div className="delivery-info">
-              <div className="icon">🛡️</div>
-              <span>Warranty Available</span>
-            </div>
+              </div>
+            )}
+
+            {activeTab === 'specifications' && (
+              <div className="tab-panel">
+                <h3>Technical Specifications</h3>
+                <div className="specs-grid">
+                  <div className="spec-item">
+                    <span className="spec-label">Brand:</span>
+                    <span className="spec-value">{product.brand}</span>
+                  </div>
+                  <div className="spec-item">
+                    <span className="spec-label">Category:</span>
+                    <span className="spec-value">{product.category}</span>
+                  </div>
+                  <div className="spec-item">
+                    <span className="spec-label">Connectivity:</span>
+                    <span className="spec-value">Bluetooth 5.0, USB-C</span>
+                  </div>
+                  <div className="spec-item">
+                    <span className="spec-label">Battery Life:</span>
+                    <span className="spec-value">30 hours</span>
+                  </div>
+                  <div className="spec-item">
+                    <span className="spec-label">Weight:</span>
+                    <span className="spec-value">250g</span>
+                  </div>
+                  <div className="spec-item">
+                    <span className="spec-label">Warranty:</span>
+                    <span className="spec-value">2 years</span>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {activeTab === 'reviews' && (
+              <div className="tab-panel">
+                <div className="reviews-header">
+                  <h3>Customer Reviews</h3>
+                  <div className="review-summary">
+                    <div className="average-rating">
+                      <span className="rating-number">{product.rating}</span>
+                      <div className="stars">
+                        {renderStars(product.rating)}
+                      </div>
+                      <span>Based on {product.numReviews} reviews</span>
+                    </div>
+                  </div>
+                </div>
+                
+                <div className="reviews-list">
+                  {product.reviews.map((review) => (
+                    <div key={review._id} className="review-item">
+                      <div className="review-header">
+                        <span className="reviewer-name">{review.name}</span>
+                        <div className="review-rating">
+                          {renderStars(review.rating)}
+                        </div>
+                      </div>
+                      <p className="review-comment">{review.comment}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>
+    </div>
   );
 };

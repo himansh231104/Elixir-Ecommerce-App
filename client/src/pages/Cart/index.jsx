@@ -1,59 +1,68 @@
 import React, { useState, useEffect } from 'react';
 import { Plus, Minus, X, ShoppingBag, CreditCard, ArrowRight } from 'lucide-react';
 import './style.css';
+import API from '../../utils/axiosConfig';
 
 export const Cart = () => {
-  // Sample cart data - in a real app this would come from your state management
-  const [cartItems, setCartItems] = useState([
-    {
-      id: 1,
-      name: "Premium Wireless Headphones",
-      price: 129.99,
-      quantity: 1,
-      image: "/api/placeholder/80/80",
-    },
-    {
-      id: 2,
-      name: "Organic Cotton T-Shirt",
-      price: 34.99,
-      quantity: 2,
-      image: "/api/placeholder/80/80",
-    },
-    {
-      id: 3,
-      name: "Stainless Steel Water Bottle",
-      price: 24.99,
-      quantity: 1,
-      image: "/api/placeholder/80/80",
-    }
-  ]);
-
+ 
   const [checkoutStage, setCheckoutStage] = useState(0);
   const [isCartVisible, setIsCartVisible] = useState(true);
+  const [cartData, setCartData] = useState({});
+
+  useEffect(()=>{
+    const fetchCartData = async () => {
+      try {
+        const cartRes = await API.get('/cart');
+        setCartData(cartRes.data);
+      } catch (error) {
+        console.log('Failed to fetch cart or product details', error);
+      }
+    }
+    fetchCartData();
+  }, [])
+
 
   // Calculate cart totals
-  const subtotal = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+  const subtotal = cartData?.items?.reduce((sum, item) => sum + (item.product.price * item.quantity), 0);
   const shipping = 9.99;
   const tax = subtotal * 0.08;
   const total = subtotal + shipping + tax;
 
-  // Handle quantity changes
-  const updateQuantity = (id, change) => {
-    setCartItems(prevItems => 
-      prevItems.map(item => 
-        item.id === id 
-          ? { ...item, quantity: Math.max(1, item.quantity + change) } 
-          : item
-      )
-    );
-  };
+// ✅ Update quantity by matching item._id
+const updateQuantity = (itemId, change) => {
+  setCartData(prevCart => {
+    const updatedItems = prevCart.items.map(item => {
+      if (item._id === itemId) {
+        const newQuantity = Math.max(1, item.quantity + change);
 
-  // Remove item from cart
-  const removeItem = (id) => {
-    setCartItems(prevItems => 
-      prevItems.filter(item => item.id !== id)
-    );
-  };
+        // ✅ Make API call with updated quantity
+        API.put(`/cart/${itemId}`, { quantity: newQuantity })
+          .catch(error => console.log('Failed to update cart quantity', error));
+
+        return { ...item, quantity: newQuantity };
+      }
+      return item;
+    });
+
+    return {
+      ...prevCart,
+      items: updatedItems,
+    };
+  });
+};
+
+// ✅ Remove item by matching item._id
+const removeItem = (itemId) => {
+  setCartData(prevCart => ({
+    ...prevCart,
+    items: prevCart.items.filter(item => item._id !== itemId),
+  }));
+
+  API.delete(`/cart/${itemId}`)
+    .catch(error => console.log('Failed to remove item from cart', error));
+};
+
+
 
   // Animation effect when component mounts
   useEffect(() => {
@@ -77,45 +86,45 @@ export const Cart = () => {
         <>
           <div className="cart-header">
             <h1><ShoppingBag className="icon" /> Your Shopping Cart</h1>
-            <p className="cart-count">{cartItems.length} {cartItems.length === 1 ? 'item' : 'items'}</p>
+            <p className="cart-count">{cartData?.items?.length} {cartData?.items?.length === 1 ? 'item' : 'items'}</p>
           </div>
 
           <div className="cart-container">
             <div className="cart-items-container">
-              {cartItems.map((item, index) => (
+              {cartData?.items?.map((item, index) => (
                 <div 
                   className="cart-item" 
-                  key={item.id}
+                  key={item.product._id}
                   style={{ animationDelay: `${index * 0.1}s` }}
                 >
                   <div className="item-image">
-                    <img src={item.image} alt={item.name} />
+                    <img src={`/assets/products/${item.product.image}.jpg`} alt={item.product.name} />
                   </div>
                   <div className="item-details">
-                    <h3>{item.name}</h3>
-                    <p className="item-price">${item.price.toFixed(2)}</p>
+                    <h3>{item.product.name}</h3>
+                    <p className="item-price">${item.product?.price.toFixed(2)}</p>
                     <div className="quantity-controls">
                       <button 
                         className="quantity-btn" 
-                        onClick={() => updateQuantity(item.id, -1)}
+                        onClick={() => updateQuantity(item._id, -1)}
                       >
                         <Minus size={16} />
                       </button>
                       <span className="quantity">{item.quantity}</span>
                       <button 
                         className="quantity-btn" 
-                        onClick={() => updateQuantity(item.id, 1)}
+                        onClick={() => updateQuantity(item._id, 1)}
                       >
                         <Plus size={16} />
                       </button>
                     </div>
                   </div>
                   <div className="item-total">
-                    <p>${(item.price * item.quantity).toFixed(2)}</p>
+                    <p>${(item.product.price * item.quantity)?.toFixed(2)}</p>
                   </div>
                   <button 
                     className="remove-btn" 
-                    onClick={() => removeItem(item.id)}
+                    onClick={() => removeItem(item._id)}
                   >
                     <X size={16} />
                   </button>
@@ -127,7 +136,7 @@ export const Cart = () => {
               <h2>Order Summary</h2>
               <div className="summary-row">
                 <span>Subtotal</span>
-                <span>${subtotal.toFixed(2)}</span>
+                <span>${subtotal?.toFixed(2)}</span>
               </div>
               <div className="summary-row">
                 <span>Shipping</span>
@@ -135,11 +144,11 @@ export const Cart = () => {
               </div>
               <div className="summary-row">
                 <span>Tax</span>
-                <span>${tax.toFixed(2)}</span>
+                <span>${tax?.toFixed(2)}</span>
               </div>
               <div className="summary-row total">
                 <span>Total</span>
-                <span>${total.toFixed(2)}</span>
+                <span>${total?.toFixed(2)}</span>
               </div>
               
               <div className="checkout-progress">
@@ -210,7 +219,7 @@ export const Cart = () => {
                     </div>
                   </div>
                   <button className="place-order-btn" onClick={nextCheckoutStage}>
-                    Place Order (${total.toFixed(2)})
+                    Place Order (${total?.toFixed(2)})
                   </button>
                 </div>
               )}

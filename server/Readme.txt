@@ -100,7 +100,7 @@ POST /api/cart
 GET /api/cart
 
 // Update Cart Item:
-PUT /api/cart/:id
+PUT /api/cart/:id     ---> Individual cart item id (not the product id...!)
 {
   "quantity": 3
 }
