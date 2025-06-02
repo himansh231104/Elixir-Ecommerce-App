@@ -40,8 +40,8 @@ const Product = (props) => {
         </div>
         <div className="d-flex align-item-center">
             <div className="d-flex align-item-center gap-2 fw-bold">
-                <span className="price">${props.price}</span>
-                <span className="oldPrice">${props.oldPrice}</span>
+                <span className="price">₹{props.price}</span>
+                <span className="oldPrice">₹{props.oldPrice}</span>
             </div>
             <Button className="addCartBtn bg-g text-white ms-auto"><ShoppingCartCheckoutIcon/>Add</Button>
         </div>

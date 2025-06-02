@@ -102,7 +102,7 @@ const removeItem = (itemId) => {
                   </div>
                   <div className="item-details">
                     <h3>{item.product.name}</h3>
-                    <p className="item-price">${item.product?.price.toFixed(2)}</p>
+                    <p className="item-price">₹{item.product?.price.toFixed(2)}</p>
                     <div className="quantity-controls">
                       <button 
                         className="quantity-btn" 
@@ -120,7 +120,7 @@ const removeItem = (itemId) => {
                     </div>
                   </div>
                   <div className="item-total">
-                    <p>${(item.product.price * item.quantity)?.toFixed(2)}</p>
+                    <p>₹{(item.product.price * item.quantity)?.toFixed(2)}</p>
                   </div>
                   <button 
                     className="remove-btn" 
@@ -136,19 +136,19 @@ const removeItem = (itemId) => {
               <h2>Order Summary</h2>
               <div className="summary-row">
                 <span>Subtotal</span>
-                <span>${subtotal?.toFixed(2)}</span>
+                <span>₹{subtotal?.toFixed(2)}</span>
               </div>
               <div className="summary-row">
                 <span>Shipping</span>
-                <span>${shipping.toFixed(2)}</span>
+                <span>₹{shipping.toFixed(2)}</span>
               </div>
               <div className="summary-row">
                 <span>Tax</span>
-                <span>${tax?.toFixed(2)}</span>
+                <span>₹{tax?.toFixed(2)}</span>
               </div>
               <div className="summary-row total">
                 <span>Total</span>
-                <span>${total?.toFixed(2)}</span>
+                <span>₹{total?.toFixed(2)}</span>
               </div>
               
               <div className="checkout-progress">
@@ -219,7 +219,7 @@ const removeItem = (itemId) => {
                     </div>
                   </div>
                   <button className="place-order-btn" onClick={nextCheckoutStage}>
-                    Place Order (${total?.toFixed(2)})
+                    Place Order (₹{total?.toFixed(2)})
                   </button>
                 </div>
               )}

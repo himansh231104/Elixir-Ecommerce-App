@@ -13,49 +13,6 @@ export const ProductPage = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [isInWishlist, setIsInWishlist] = useState(false);
 
-  // Sample product data based on your schema
-  // const product = {
-  //   _id: "64a1b2c3d4e5f6789012345",
-  //   name: "Premium Wireless Headphones",
-  //   image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500&h=500&fit=crop",
-  //   brand: "AudioTech",
-  //   category: "Electronics",
-  //   description: "Experience premium sound quality with these wireless headphones featuring active noise cancellation, 30-hour battery life, and premium comfort padding. Perfect for music lovers and professionals alike.",
-  //   price: 299.99,
-  //   countInStock: 15,
-  //   rating: 4.5,
-  //   numReviews: 128,
-  //   reviews: [
-  //     {
-  //       _id: "1",
-  //       name: "John Doe",
-  //       rating: 5,
-  //       comment: "Excellent sound quality and comfortable to wear for long periods!",
-  //       user: "64a1b2c3d4e5f6789012346"
-  //     },
-  //     {
-  //       _id: "2", 
-  //       name: "Sarah Johnson",
-  //       rating: 4,
-  //       comment: "Great headphones, battery life is amazing. Slightly heavy but worth it.",
-  //       user: "64a1b2c3d4e5f6789012347"
-  //     },
-  //     {
-  //       _id: "3",
-  //       name: "Mike Chen",
-  //       rating: 5,
-  //       comment: "Best purchase I've made this year. The noise cancellation is incredible!",
-  //       user: "64a1b2c3d4e5f6789012348"
-  //     }
-  //   ]
-  // };
-
-  // const productImages = [
-  //   "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500&h=500&fit=crop",
-  //   "https://images.unsplash.com/photo-1484704849700-f032a568e944?w=500&h=500&fit=crop",
-  //   "https://images.unsplash.com/photo-1487215078519-e21cc028cb29?w=500&h=500&fit=crop",
-  //   "https://images.unsplash.com/photo-1583394838336-acd977736f90?w=500&h=500&fit=crop"
-  // ];
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -187,8 +144,8 @@ export const ProductPage = () => {
             </div>
 
             <div className="price-section">
-              <span className="current-price">${product.price}</span>
-              <span className="original-price">$399.99</span>
+              <span className="current-price">₹{product.price}</span>
+              <span className="original-price">₹399.99</span>
               <span className="discount-badge">25% OFF</span>
             </div>
 
@@ -237,7 +194,7 @@ export const ProductPage = () => {
             <div className="features-list">
               <div className="feature-item">
                 <span className="feature-icon">🚚</span>
-                <span>Free shipping on orders over $100</span>
+                <span>Free shipping on orders over ₹100</span>
               </div>
               <div className="feature-item">
                 <span className="feature-icon">↩️</span>

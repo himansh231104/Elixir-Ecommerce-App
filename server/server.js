@@ -17,7 +17,6 @@ app.use(express.json());   // Middleware to parse JSON body
 
 app.use(express.static(path.join(__dirname, "public")));
 
-
 // Routes
 const userRoutes = require("./routes/userRoutes");
 app.use("/api/users", userRoutes);
@@ -37,13 +36,11 @@ app.use("/api/orders", orderRoutes);
 const paymentRoutes = require("./routes/paymentRoutes");
 app.use("/api/payment", paymentRoutes);
 
-
 // 404 Handler
 app.use(notFound);
 
 // Error Handler
 app.use(errorHandler);
-
 
 // Root test route
 app.get("/", (req, res) => {

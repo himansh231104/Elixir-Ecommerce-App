@@ -1,7 +1,4 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import './style.css';
-import { useAuth } from '../../context/AuthContext';
 import SliderBanner from '../../components/Slider/Slider';
 import CategorySlider from '../../components/CategorySlider/CategorySlider';
 import Banners from '../../components/Banners/Banners';

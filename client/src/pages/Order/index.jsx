@@ -138,7 +138,7 @@ export const Order = () => {
                     <div className='order-page-item-details'>
                       <h3>{item.product.name}</h3>
                       <p className='order-page-item-price'>
-                        ${item.product.price.toFixed(2)}
+                        ₹{item.product.price.toFixed(2)}
                       </p>
                     </div>
                     <div className='order-page-item-quantity'>
@@ -157,7 +157,7 @@ export const Order = () => {
                       </button>
                     </div>
                     <p className='order-page-item-total'>
-                      ${(item.product.price * item.quantity).toFixed(2)}
+                      ₹{(item.product.price * item.quantity).toFixed(2)}
                     </p>
                   </div>
                 ))}
@@ -166,19 +166,19 @@ export const Order = () => {
               <div className='order-page-summary'>
                 <div className='order-page-summary-row'>
                   <span>Subtotal</span>
-                  <span>${calculateSubtotal().toFixed(2)}</span>
+                  <span>₹{calculateSubtotal().toFixed(2)}</span>
                 </div>
                 <div className='order-page-summary-row'>
                   <span>Shipping</span>
-                  <span>$9.99</span>
+                  <span>₹9.99</span>
                 </div>
                 <div className='order-page-summary-row'>
                   <span>Tax (7%)</span>
-                  <span>${(calculateSubtotal() * 0.07).toFixed(2)}</span>
+                  <span>₹{(calculateSubtotal() * 0.07).toFixed(2)}</span>
                 </div>
                 <div className='order-page-summary-row total'>
                   <span>Total</span>
-                  <span>${calculateTotal().toFixed(2)}</span>
+                  <span>₹{calculateTotal().toFixed(2)}</span>
                 </div>
               </div>
             </div>
@@ -468,15 +468,15 @@ export const Order = () => {
                     )}{' '}
                     Items
                   </span>
-                  <span>${calculateSubtotal().toFixed(2)}</span>
+                  <span>₹{calculateSubtotal().toFixed(2)}</span>
                 </div>
                 <div className='order-page-summary-row'>
                   <span>Shipping + Tax</span>
-                  <span>${(9.99 + calculateSubtotal() * 0.07).toFixed(2)}</span>
+                  <span>₹{(9.99 + calculateSubtotal() * 0.07).toFixed(2)}</span>
                 </div>
                 <div className='order-page-summary-row total'>
                   <span>Total</span>
-                  <span>${calculateTotal().toFixed(2)}</span>
+                  <span>₹{calculateTotal().toFixed(2)}</span>
                 </div>
               </div>
             </div>
@@ -495,18 +495,18 @@ export const Order = () => {
               Continue to {steps[activeStep].title}
             </button>
           ) : (
-            // <button className="order-page-btn primary" onClick={() => alert("Order submitted successfully!")}>
-            //   Place Order
-            // </button>
-            // Assume you have `order` and `user` data
-            <PayButton
-              className='order-page-btn primary'
-              amount={250}
-              user={'6815989ec51b03b88e4724b3'}
-              orderId={'6802dd5a2b9c8c1da8ac16ef'}
-            >
+            <button className="order-page-btn primary" onClick={() => alert("Order submitted successfully!")}>
               Place Order
-            </PayButton>
+            </button>
+            // Assume you have `order` and `user` data
+            // <PayButton
+            //   className='order-page-btn primary'
+            //   amount={250}
+            //   user={'6815989ec51b03b88e4724b3'}
+            //   orderId={'6802dd5a2b9c8c1da8ac16ef'}
+            // >
+            //   Place Order
+            // </PayButton>
           )}
         </div>
       </div>

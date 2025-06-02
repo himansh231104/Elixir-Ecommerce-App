@@ -28,7 +28,7 @@ function App() {
           <Route exact={true} path="/contact" element={<Contact/>}/>
           <Route exact={true} path="/signup" element={<AuthRedirect><LoginSignup/></AuthRedirect>}/>
           <Route exact={true} path="/login" element={<AuthRedirect><LoginSignup/></AuthRedirect>}/>
-          <Route exact={true} path="/profile" element={ <UserProfile/> }/>
+          <Route exact={true} path="/profile" element={ <ProtectedRoute><UserProfile/></ProtectedRoute> }/>
           <Route exact={true} path="/product/:id" element={ <ProtectedRoute><ProductPage/></ProtectedRoute> }/>
           <Route exact={true} path="/cart" element={ <ProtectedRoute><Cart/></ProtectedRoute> }/>
           <Route exact={true} path="/order" element={ <ProtectedRoute><Order/></ProtectedRoute> }/>
