@@ -12,6 +12,14 @@ export const UserProfile = () => {
   const [orders, setOrders] = useState(null);
   const [wishlist, setWishlist] = useState(null);
   const [userData, setUserData] = useState({});
+  const [cartData, setCartData] = useState({
+  items: [
+    {
+      product: "", // product ID (string)
+      quantity: 1,
+    }
+  ]
+});
 
   const { logout } = useAuth();
   const navigate = useNavigate();
@@ -75,6 +83,23 @@ export const UserProfile = () => {
           console.error('Update failed:', err);
           return false;
         }
+  };
+
+  const handleAddToCart = async (productId) => {
+    setCartData(prevCart => ({
+      ...prevCart,
+      items: [...prevCart.items, { product: productId, quantity: 1 }]
+    }))
+    try {
+      const response = await API.post('/cart', cartData);
+      if (response.data && response.data.token) {
+        return true;
+      }
+      return false;
+    } catch (err) {
+      console.error('Add to cart failed:', err);
+      return false;
+    }
   };
   
   const handleSubmit = (e) => {
@@ -335,7 +360,7 @@ export const UserProfile = () => {
                                 />
                                 <div className="product-info">
                                   <h4>{item.product?.name || "Product"}</h4>
-                                  <p>Qty: {item.quantity} × ${item.product.price}</p>
+                                  <p>Qty: {item.quantity} × ₹{item.product.price}</p>
                                 </div>
                               </div>
                             ))}
@@ -343,11 +368,11 @@ export const UserProfile = () => {
                           
                           <div className="order-summary">
                             <div className="total-price">
-                              <span className="label">Total:</span>
-                              <span className="value">${order.totalPrice.toFixed(2)}</span>
+                              <span className="label">Total:&nbsp;</span>
+                              <span className="value">₹{order.totalPrice.toFixed(2)}</span>
                             </div>
                             <div className="payment-method">
-                              <span className="label">Payment:</span>
+                              <span className="label">Payment:&nbsp;</span>
                               <span className="value">{order.paymentMethod}</span>
                             </div>
                             <button className="view-details-btn">
@@ -399,8 +424,8 @@ export const UserProfile = () => {
                         </div>
                         <div className="wishlist-product-info">
                           <h3>{item.product.name}</h3>
-                          <p className="price">${item.product.price.toFixed(2)}</p>
-                          <button className="add-to-cart-btn">Add to Cart</button>
+                          <p className="price">₹{item.product.price.toFixed(2)}</p>
+                          <button className="add-to-cart-btn" onClick={() => handleAddToCart(item.product._id)}>Add to Cart</button>
                         </div>
                       </motion.div>
                     ))}

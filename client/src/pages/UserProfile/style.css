@@ -441,12 +441,13 @@
 }
 
 .profile-page .total-price .value {
-  font-size: 1.3rem;
+  font-size: 1rem;
   font-weight: 700;
   color: #333;
 }
 
 .profile-page .payment-method .value {
+  font-size: 1rem;
   font-weight: 600;
   color: #333;
 }
