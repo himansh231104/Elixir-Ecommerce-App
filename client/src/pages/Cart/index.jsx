@@ -1,25 +1,31 @@
 import React, { useState, useEffect } from 'react';
 import { Plus, Minus, X, ShoppingBag, CreditCard, ArrowRight } from 'lucide-react';
 import './style.css';
+import { useAuth } from '../../context/AuthContext';
 import API from '../../utils/axiosConfig';
+import { PayButton } from '../../components/PayButton/PayButton';
+
 
 export const Cart = () => {
- 
+  const { currentUser } = useAuth();
   const [checkoutStage, setCheckoutStage] = useState(0);
   const [isCartVisible, setIsCartVisible] = useState(true);
   const [cartData, setCartData] = useState({});
+  const [orderId, setOrderId] = useState(null);
 
-  useEffect(()=>{
+  useEffect(() => {
     const fetchCartData = async () => {
       try {
         const cartRes = await API.get('/cart');
         setCartData(cartRes.data);
+        const orderRes = await API.get('/order/myorders');
+        setOrderId(orderRes.data._id);
       } catch (error) {
-        console.log('Failed to fetch cart or product details', error);
-      }
-    }
+        console.log('Failed to fetch cart or order or product details', error);
+      } 
+    };
     fetchCartData();
-  }, [])
+  }, []);
 
 
   // Calculate cart totals
@@ -218,9 +224,7 @@ const removeItem = (itemId) => {
                       </div>
                     </div>
                   </div>
-                  <button className="place-order-btn" onClick={nextCheckoutStage}>
-                    Place Order (₹{total?.toFixed(2)})
-                  </button>
+                  <PayButton amount={total?.toFixed(2)} user={currentUser._id} orderId={orderId}/>
                 </div>
               )}
             </div>

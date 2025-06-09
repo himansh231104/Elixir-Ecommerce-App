@@ -1,18 +1,17 @@
 import React from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import "./PayButton.css";
+import API from "../../utils/axiosConfig";
 
 export const PayButton = ({ amount, user, orderId }) => {
+  const navigate = useNavigate();
   const loadRazorpay = async () => {
     try {
       // 1. Create Razorpay order from backend
-      const { data } = await axios.post(
-        "/api/payment/razorpay",
+      const { data } = await API.post(
+        "/payment/razorpay",
         { totalPrice: amount },
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
       );
       console.log(data);
 
@@ -21,25 +20,20 @@ export const PayButton = ({ amount, user, orderId }) => {
         key: process.env.REACT_APP_RAZORPAY_KEY_ID,
         amount: data.amount,
         currency: data.currency,
-        name: "My Ecommerce",
+        name: "Elixir — Magic Mart",
         description: "Order Payment",
         order_id: data.id,
         handler: async function (response) {
           alert("Payment Successful!");
 
           // 3. Optional: Update payment status in backend
-          await axios.put(
-            `/api/orders/${orderId}/pay`,
+          await API.put(
+            `/orders/${orderId}/pay`,
             {
               razorpay_order_id: response.razorpay_order_id,
               razorpay_payment_id: response.razorpay_payment_id,
               razorpay_signature: response.razorpay_signature,
             },
-            {
-              headers: {
-                Authorization: `Bearer ${localStorage.getItem("token")}`,
-              },
-            }
           );
         },
         prefill: {
@@ -49,6 +43,12 @@ export const PayButton = ({ amount, user, orderId }) => {
         theme: {
           color: "#3399cc",
         },
+        redirect: false, // This enables redirect after payment
+        // callback_url: "https://elixir-ecommerce-app.vercel.app/profile", 
+        handler: function (response) {
+          // Show success message, or navigate to your profile page
+          navigate("/profile");
+        }
       };
 
       const rzp = new window.Razorpay(options);
@@ -59,6 +59,6 @@ export const PayButton = ({ amount, user, orderId }) => {
     }
   };
 
-  return <button onClick={loadRazorpay}>Pay ₹{amount}</button>;
+  return <button onClick={loadRazorpay} className="order-page-btn primary">Pay ₹{amount}</button>;
 };
 

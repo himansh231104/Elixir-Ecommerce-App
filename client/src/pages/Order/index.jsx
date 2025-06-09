@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import './style.css';
 import API from '../../utils/axiosConfig';
+import { useAuth } from '../../context/AuthContext';
 import {
   ShoppingBag,
   ChevronRight,
@@ -12,9 +13,11 @@ import {
 import { PayButton } from '../../components/PayButton/PayButton';
 
 export const Order = () => {
+  const { currentUser } = useAuth();
   const [isLoaded, setIsLoaded] = useState(false);
   const [activeStep, setActiveStep] = useState(1);
   const [orderItems, setOrderItems] = useState([]);
+  const [orderId, setOrderId] = useState(null);
 
   const [formData, setFormData] = useState({
     fullName: '',
@@ -35,6 +38,8 @@ export const Order = () => {
       try {
         const cartRes = await API.get('/cart');
         setOrderItems(cartRes.data.items);
+        const orderRes = await API.get('/order/myorders');
+        setOrderId(orderRes.data._id);
       } catch (error) {
         console.log('Failed to fetch cart or product details', error);
       }
@@ -286,7 +291,7 @@ export const Order = () => {
                     }
                   >
                     <CreditCard size={24} />
-                    <span>Credit Card</span>
+                    <span>Cards</span>
                   </div>
 
                   <div
@@ -298,7 +303,7 @@ export const Order = () => {
                     }
                   >
                     <Wallet size={24} />
-                    <span>PayPal</span>
+                    <span>Wallet</span>
                   </div>
 
                   <div
@@ -310,7 +315,7 @@ export const Order = () => {
                     }
                   >
                     <Wallet size={24} />
-                    <span>Razor Pay</span>
+                    <span>UPI</span>
                   </div>
 
                   <div
@@ -495,18 +500,7 @@ export const Order = () => {
               Continue to {steps[activeStep].title}
             </button>
           ) : (
-            <button className="order-page-btn primary" onClick={() => alert("Order submitted successfully!")}>
-              Place Order
-            </button>
-            // Assume you have `order` and `user` data
-            // <PayButton
-            //   className='order-page-btn primary'
-            //   amount={250}
-            //   user={'6815989ec51b03b88e4724b3'}
-            //   orderId={'6802dd5a2b9c8c1da8ac16ef'}
-            // >
-            //   Place Order
-            // </PayButton>
+            <PayButton amount={calculateTotal().toFixed(2)} user={currentUser._id} orderId={orderId}/>            
           )}
         </div>
       </div>
