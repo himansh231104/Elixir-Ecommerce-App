@@ -44,7 +44,7 @@ export const PayButton = ({ amount, user, orderId }) => {
           color: "#3399cc",
         },
         redirect: false, // This enables redirect after payment
-        // callback_url: "https://elixir-ecommerce-app.vercel.app/profile", 
+        // callback_url: "https://elixir-ecommerce-app.vercel.app/success", 
         handler: function (response) {
           // Show success message, or navigate to your profile page
           navigate("/profile");

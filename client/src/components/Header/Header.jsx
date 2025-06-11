@@ -45,7 +45,6 @@ export const Header = () => {
   
           setUserData(profileRes.data);
           const userId = profileRes.data._id;
-          console.log( userId); 
           const [ordersRes, cartRes, wishlistRes] = await Promise.all([
             API.get('/orders/myorders'),
             API.get('/cart'),

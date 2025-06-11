@@ -21,34 +21,40 @@ const getWishlist = async (req, res) => {
 // @desc    Add item to wishlist
 // @route   POST /api/wishlist/:userId
 // @access  Private
+
 const addToWishlist = async (req, res) => {
-    const { product, name, image, price } = req.body;
+  const { product, name, image, price } = req.body;
 
-    try {
-        let wishlist = await Wishlist.findOne({ user: req.params.userId });
+  try {
+    let wishlist = await Wishlist.findOne({ user: req.user._id });
 
-        if (!wishlist) {
-            wishlist = new Wishlist({
-                user: req.params.userId,
-                items: [],
-            });
-        }
-
-        const alreadyExists = wishlist.items.find(
-            (item) => item.product.toString() === product
-        );
-
-        if (alreadyExists) {
-            return res.status(400).json({ message: "Item already in wishlist" });
-        }
-
-        wishlist.items.push({ product, name, image, price });
-        await wishlist.save();
-
-        res.status(200).json(wishlist);
-    } catch (error) {
-        res.status(500).json({ message: "Server error", error: error.message });
+    if (!wishlist) {
+      wishlist = new Wishlist({
+        user: req.user._id,
+        items: [],
+      });
     }
+
+    const alreadyExists = wishlist.items.find(
+      (item) => item.product.toString() === product
+    );
+
+    if (alreadyExists) {
+      return res.status(400).json({ message: "Item already in wishlist" });
+    }
+
+    wishlist.items.push({
+      product,
+      name,
+      image,
+      price,
+    });
+    await wishlist.save();
+    res.status(200).json(wishlist);
+  } catch (error) {
+    console.error("Wishlist Error:", error);
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
 };
 
 // @desc    Remove item from wishlist
